@@ -1,16 +1,33 @@
 {
-  "name": "hdr_mvp_gateway_auth_web_server",
-  "version": "0.0.1",
-  "description": "This application is the HDR Gateway, authentication and web server",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://TrevorWardCIC@bitbucket.org/hdr_mvp_gateway/hdr_mvp_gateway_auth_web_server.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/hdr_mvp_gateway/hdr_mvp_gateway_auth_web_server#readme"
+    "name": "hdr_mvp_gateway_auth_web_server",
+    "version": "0.0.1",
+    "description": "This application is the HDR Gateway, authentication and web server",
+    "main": "index.js",
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "nodemon src/index.js",
+        "test:coverage": "jest --coverage",
+        "test": "jest --watch",
+        "lint": "eslint src/",
+        "sonarQube": "sonar-scanner"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://TrevorWardCIC@bitbucket.org/hdr_mvp_gateway/hdr_mvp_gateway_auth_web_server.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "homepage": "https://bitbucket.org/hdr_mvp_gateway/hdr_mvp_gateway_auth_web_server#readme",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "winston": "^3.2.1",
+        "winston-daily-rotate-file": "^4.2.1"
+    },
+    "devDependencies": {
+        "eslint": "^6.6.0",
+        "jest": "^24.9.0",
+        "nodemon": "^1.19.4",
+        "sonar-scanner": "^3.1.0"
+    }
 }
