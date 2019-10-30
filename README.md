@@ -22,6 +22,15 @@ This will install the application on port 5003 by default.
 
 Create an environment file with the following options:
 
+_NODE_ENV_
+
+> use local when developing
+> _PORT_
+> The main port should be 5003
+> _APPLICATION_PATH_
+> The actual path to the react application build directory
+> i.e. C:\Users\TREVORWard\HDR_Gateway\Development\hdr_mvp_gateway_web_application\build
+
 ### Running the Application
 
 `npm run dev`
