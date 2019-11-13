@@ -13,6 +13,7 @@ EXPOSE 8080
 EXPOSE 5003
  
 # Add environment variables 
+ENV NODE_ENV = local 
 ENV PORT = 5003
 ENV APPLICATION_PATH = pathhere
   
