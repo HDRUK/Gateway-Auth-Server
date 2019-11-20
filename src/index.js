@@ -10,6 +10,11 @@ const mainApp = process.env.APPLICATION_PATH;
 
 app.use(express.static(mainApp));
 
+app.get("/login", function(req, res) {
+    console.log("Login Result Path");
+    return res;
+});
+
 app.listen(port, () =>
     logger.log({
         level: "info",
