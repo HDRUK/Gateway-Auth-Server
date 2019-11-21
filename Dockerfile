@@ -9,13 +9,12 @@ RUN npm install
 COPY . .  
  
 # Expose ports needed 
-EXPOSE 8080  
 EXPOSE 5003
  
 # Add environment variables 
-ENV NODE_ENV=local 
-ENV PORT=5003
-ENV APPLICATION_PATH=148375436316.dkr.ecr.eu-west-2.amazonaws.com/hdr-gateway-webapp:latest 
+ENV NODE_ENV=${authnode}
+ENV PORT=${authport}
+ENV APPLICATION_PATH=${path}
   
 # Start the app  
 CMD [ "npm", "start"]  
