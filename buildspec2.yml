@@ -13,7 +13,7 @@ env:
             type: LoadBalancer
             ports:
               - port: 443
-                targetPort: 3000
+                targetPort: 5003
                 protocol: TCP
             selector:
               app: authwebserver
