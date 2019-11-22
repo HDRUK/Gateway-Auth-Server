@@ -8,6 +8,7 @@ env:
         kind: Service
         metadata:
           name: authwebserver
+          namespace: hdrdev
         spec:
           type: LoadBalancer
           ports:
@@ -20,6 +21,7 @@ env:
         kind: Deployment
         metadata:
           name: authwebserver
+          namespace: hdrdev
         spec:
           replicas: 3
           strategy:
@@ -94,7 +96,7 @@ phases:
   build:
     commands:
       - echo updating deployment...
-      - kubectl delete deployment.app/authwebserver service/authwebserver --namespace=$NAMESPACE
+      - kubectl delete deployment.apps/authwebserver service/authwebserver --namespace=$NAMESPACE
       #- kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE 
       
   post_build:
