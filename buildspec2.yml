@@ -14,7 +14,7 @@ env:
             - port: 80
               targetPort: 5003
           selector:
-            app: hello-k8s
+            app: authwebserver
         ---
         apiVersion: apps/v1
         kind: Deployment
@@ -36,7 +36,7 @@ env:
                 app: authwebserver
             spec:
               containers:
-                - name: hello-k8s
+                - name: authwebserver
                   image: 148375436316.dkr.ecr.eu-west-2.amazonaws.com/hdr-gateway-auth-web-server:latest
                   securityContext:
                     privileged: false
@@ -94,7 +94,7 @@ phases:
   build:
     commands:
       - echo updating deployment...
-      - kubectl delete deployments.app/authwebserver service/authwebserver
+      - kubectl delete deployment.app/authwebserver service/authwebserver
       #- kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE 
       
   post_build:
