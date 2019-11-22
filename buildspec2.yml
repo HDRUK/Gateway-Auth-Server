@@ -11,8 +11,7 @@ env:
           namespace: hdrdev
           labels:
             app: authwebserver
-          annotations:
-            service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+          annotations:{}
         spec:
           externalTrafficPolicy: Local
           ports:
