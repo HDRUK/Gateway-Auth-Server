@@ -18,7 +18,7 @@ env:
                 protocol: TCP
             selector:
               app: authwebserver
-            externalTrafficPolicy: Local
+#externalTrafficPolicy: Local
                       
 phases:
   install:
