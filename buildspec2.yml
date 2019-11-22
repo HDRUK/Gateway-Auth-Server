@@ -20,7 +20,7 @@ env:
             targetPort: 5003
           selector:
             app: authwebserver
-        type: LoadBalancer
+          type: LoadBalancer
         
     CONFIG: | 
           apiVersion: v1
