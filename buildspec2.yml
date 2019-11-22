@@ -72,8 +72,8 @@ phases:
   build:
     commands:
       - echo updating deployment...
-      #- kubectl delete deployment.apps/authwebserver service/authwebserver --namespace=$NAMESPACE
-      - kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE 
+      - kubectl delete deployment.apps/authwebserver service/authwebserver --namespace=$NAMESPACE
+      #- kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE 
       
   post_build:
     commands:
@@ -83,7 +83,7 @@ phases:
       #- echo "$CONFIG">>configs.yml
       - echo "$CONFIGS">>configs.yml
       - echo exposing deployment to load balancer...
-      - kubectl apply -f configs.yml --validate=false --namespace=$NAMESPACE
+      #- kubectl apply -f configs.yml --validate=false --namespace=$NAMESPACE
       - echo getting external ips from cluster...
       - kubectl get services -o wide --namespace=$NAMESPACE 
       #uncomment BELOW to rollback to previous deployment version
