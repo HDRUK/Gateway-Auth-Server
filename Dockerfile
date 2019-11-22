@@ -1,5 +1,5 @@
 FROM node:8  
-WORKDIR /src/index.js  
+#WORKDIR /src/index.js  
   
 # Install app dependencies  
 COPY package*.json ./  
@@ -9,7 +9,7 @@ RUN npm install
 COPY . .  
  
 # Expose ports needed 
-EXPOSE 3000/tcp
+EXPOSE 5001/tcp
  
 # Add environment variables 
 ENV NODE_ENV=${authnode}
