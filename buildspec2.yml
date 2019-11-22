@@ -53,11 +53,8 @@ phases:
   build:
     commands:
       - echo updating deployment...
-      - kubectl delete service/authwebserver deployment.apps/authwebserver --namespace=$NAMESPACE
-      - kubectl run $APP_NAME --image=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --port=3000 --namespace=$NAMESPACE 
-      #- kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE --port=3000
-      - kubectl scale deployment.apps/authwebserver --replicas=3
-      #- kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE
+      - kubectl scale authwebserver --replicas=3
+      - kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE
      
   post_build:
     commands:
