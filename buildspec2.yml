@@ -14,7 +14,7 @@ env:
             ports:
               - port: 80
                 name: http
-                targetPort: 3000
+                targetPort: 5001
                 protocol: TCP
             selector:
               app: authwebserver
