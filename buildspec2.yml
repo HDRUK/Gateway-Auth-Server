@@ -9,46 +9,21 @@ env:
         metadata:
           name: authwebserver
           namespace: hdrdev
+          labels:
+            app: authwebserver
+          annotations:
+            service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
         spec:
-          type: LoadBalancer
+          externalTrafficPolicy: Local
           ports:
-            - port: 80
-              targetPort: 5003
+          - name: http
+            port: 80
+            protocol: TCP
+            targetPort: 5003
           selector:
             app: authwebserver
-          externalTrafficPolicy: Local
-        ---
-        apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          name: authwebserver
-          namespace: hdrdev
-        spec:
-          replicas: 3
-          strategy:
-            type: RollingUpdate
-            rollingUpdate:
-              maxUnavailable: 2
-              maxSurge: 2
-          selector:
-            matchLabels:
-              app: authwebserver
-          externalTrafficPolicy: Local
-          template:
-            metadata:
-              labels:
-                app: authwebserver
-            spec:
-              containers:
-                - name: authwebserver
-                  image: 148375436316.dkr.ecr.eu-west-2.amazonaws.com/hdr-gateway-auth-web-server:latest
-                  securityContext:
-                    privileged: false
-                    readOnlyRootFilesystem: true
-                    allowPrivilegeEscalation: false
-                  ports:
-                    - containerPort: 5003
-                  externalTrafficPolicy: Local
+        type: LoadBalancer
+        
     CONFIG: | 
           apiVersion: v1
           kind: Service
@@ -100,7 +75,7 @@ phases:
     commands:
       - echo updating deployment...
       #- kubectl delete deployment.apps/authwebserver service/authwebserver --namespace=$NAMESPACE
-      #- kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE 
+      - kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE 
       
   post_build:
     commands:
