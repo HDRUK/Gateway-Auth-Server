@@ -7,8 +7,6 @@ phases:
       - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&  
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"  
       - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-      - . ~/.nvm/nvm.sh
-      - nvm install node
   #If you use the Ubuntu standard image 2.0 or later  
     runtime-versions:  
       docker: 18  
