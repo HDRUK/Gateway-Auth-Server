@@ -13,11 +13,12 @@ env:
             type: LoadBalancer
             ports:
               - port: 443
+                name: https
                 targetPort: 3000
                 protocol: TCP
             selector:
               app: authwebserver
-            externalTrafficPolicy: Local
+#externalTrafficPolicy: Local
                       
 phases:
   install:
