@@ -11,7 +11,6 @@ env:
           namespace: hdrdev
           labels:
             app: authwebserver
-          annotations:{}
         spec:
           externalTrafficPolicy: Local
           ports:
