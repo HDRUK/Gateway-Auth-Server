@@ -3,6 +3,47 @@ version: 0.2
 
 env:
   variables:
+    CONFIGS: |
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: authwebserver
+        spec:
+          type: LoadBalancer
+          ports:
+            - port: 80
+              targetPort: 5003
+          selector:
+            app: hello-k8s
+        ---
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: authwebserver
+        spec:
+          replicas: 3
+          strategy:
+            type: RollingUpdate
+            rollingUpdate:
+              maxUnavailable: 2
+              maxSurge: 2
+          selector:
+            matchLabels:
+              app: authwebserver
+          template:
+            metadata:
+              labels:
+                app: authwebserver
+            spec:
+              containers:
+                - name: hello-k8s
+                  image: 148375436316.dkr.ecr.eu-west-2.amazonaws.com/hdr-gateway-auth-web-server:latest
+                  securityContext:
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    allowPrivilegeEscalation: false
+                  ports:
+                    - containerPort: 5003
     CONFIG: | 
           apiVersion: v1
           kind: Service
@@ -53,18 +94,20 @@ phases:
   build:
     commands:
       - echo updating deployment...
-      - kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE 
+      - kubectl delete deployments.app/authwebserver service/authwebserver
+      #- kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE 
       
   post_build:
     commands:
       #uncomment the 5 lines BELOW this if CONGIG in variables above change
       - echo creating configs file...
       - touch configs.yml
-      - echo "$CONFIG">>configs.yml
+      #- echo "$CONFIG">>configs.yml
+      - echo "$CONFIGS">>configs.yml
       - echo exposing deployment to load balancer...
-      - kubectl apply -f configs.yml --validate=false
+      - kubectl apply -f configs.yml --validate=false --namespace=$NAMESPACE
       - echo getting external ips from cluster...
-      - kubectl get services -o wide --namespace=$NAMESPACE
+      - kubectl get services -o wide --namespace=$NAMESPACE 
       #uncomment BELOW to rollback to previous deployment version
       #- echo rollback to previous deployment version...
       #- kubectl rollout undo deployments/$APP_NAME
