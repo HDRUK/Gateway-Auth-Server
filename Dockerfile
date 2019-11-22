@@ -1,5 +1,5 @@
 FROM node:8  
-#WORKDIR /src/index.js  
+WORKDIR /src/index.js  
   
 # Install app dependencies  
 COPY package*.json ./  
@@ -17,4 +17,4 @@ ENV PORT=${authport}
 ENV APPLICATION_PATH=${path}
   
 # Start the app  
-CMD [ "npm", "start"]  
+CMD [ "npm", "run", "start"]  
