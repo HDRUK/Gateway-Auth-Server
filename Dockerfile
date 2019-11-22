@@ -9,7 +9,7 @@ RUN npm install
 COPY . .  
  
 # Expose ports needed 
-EXPOSE 3000
+EXPOSE 3000/tcp
  
 # Add environment variables 
 ENV NODE_ENV=${authnode}
