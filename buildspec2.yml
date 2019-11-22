@@ -48,8 +48,8 @@ phases:
       - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME 
       - echo getting deployments...
       - kubectl get all --namespace=$NAMESPACE
-      #- kubectl delete authwebserver --namespace=$NAMESPACE
-      #- kubectl run $APP_NAME --image=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --port=3000 --namespace=$NAMESPACE
+      - kubectl delete deployment.apps/authwebserver --namespace=$NAMESPACE
+      - kubectl run $APP_NAME --image=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --port=3000 --namespace=$NAMESPACE
 
   build:
     commands:
