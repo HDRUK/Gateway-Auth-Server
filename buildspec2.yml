@@ -12,13 +12,13 @@ env:
           spec:
             type: LoadBalancer
             ports:
-              - port: 80
-                name: http
+              - port: 443
+                name: https
                 targetPort: 3000
                 protocol: TCP
             selector:
               app: authwebserver
-#externalTrafficPolicy: Local
+            externalTrafficPolicy: Local
                       
 phases:
   install:
@@ -53,6 +53,7 @@ phases:
   build:
     commands:
       - echo updating deployment...
+      - kubectl scale deployment.apps/authwebserver --replicas=3
       - kubectl set image deployments/$APP_NAME $APP_NAME=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO:$IMAGE_TAG --namespace=$NAMESPACE
      
   post_build:
