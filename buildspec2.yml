@@ -8,6 +8,7 @@ env:
         kind: Service
         metadata:
           name: authwebserver
+          annotations: service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
           namespace: hdrdev
           labels:
             app: authwebserver
