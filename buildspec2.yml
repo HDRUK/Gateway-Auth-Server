@@ -16,6 +16,7 @@ env:
               targetPort: 5003
           selector:
             app: authwebserver
+          externalTrafficPolicy: Local
         ---
         apiVersion: apps/v1
         kind: Deployment
@@ -32,6 +33,7 @@ env:
           selector:
             matchLabels:
               app: authwebserver
+          externalTrafficPolicy: Local
           template:
             metadata:
               labels:
@@ -46,6 +48,7 @@ env:
                     allowPrivilegeEscalation: false
                   ports:
                     - containerPort: 5003
+                  externalTrafficPolicy: Local
     CONFIG: | 
           apiVersion: v1
           kind: Service
