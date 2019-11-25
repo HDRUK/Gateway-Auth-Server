@@ -1,8 +1,8 @@
-FROM node:8  
-WORKDIR /src/index.js  
+FROM node:12 
+WORKDIR /  
   
 # Install app dependencies  
-COPY package*.json ./  
+COPY package.json ./  
 RUN npm install  
  
 # Copy app contents  
@@ -15,9 +15,9 @@ EXPOSE 5001/tcp
 #ENV NODE_ENV=${authnode}
 #ENV PORT=${authport}
 #ENV APPLICATION_PATH=${path}
-ENV NODE_ENV=local
-ENV PORT=5003
-ENV APPLICATION_PATH=./build
+#ENV NODE_ENV=local
+#ENV PORT=5003
+#ENV APPLICATION_PATH=./build
   
 # Start the app  
 CMD [ "npm", "run", "start"]  
