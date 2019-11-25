@@ -19,6 +19,7 @@ phases:
       - npm install
       - npm run build
       - cp -r ./build $CODEBUILD_SRC_DIR
+      - cp ./.env $CODEBUILD_SRC_DIR/build
       - cd $CODEBUILD_SRC_DIR
       - echo Logging in to Amazon ECR...   
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
