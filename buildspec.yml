@@ -22,9 +22,9 @@ phases:
       - cp ./.env $CODEBUILD_SRC_DIR/build
       - cd $CODEBUILD_SRC_DIR
       - touch ./.env
-      - echo "APPLICATION_PATH="$path >> .env
-      - echo "PORT="$authport >> .env
-      - echo "NODE_ENV="$authnode >> .env
+      - echo "APPLICATION_PATH="$APPLICATION_PATH >> .env
+      - echo "PORT="$PORT >> .env
+      - echo "NODE_ENV="$NODE_ENV >> .env
       - echo Logging in to Amazon ECR...   
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       
