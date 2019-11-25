@@ -39,7 +39,7 @@ env:
                 containers: 
                 - name: authwebserver 
                   image: 148375436316.dkr.ecr.eu-west-2.amazonaws.com/hdr-gateway-auth-web-server:latest
-                  imagePullPolicy: IfNotPresent 
+                  imagePullPolicy: Always 
                   ports: 
                   - containerPort: 5003
     
