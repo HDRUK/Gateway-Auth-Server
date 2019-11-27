@@ -27,7 +27,8 @@ env:
           metadata: 
             name: authwebserver-deployment 
             namespace: hdrdev 
-          spec: 
+          spec:
+            replicas: 3
             selector: 
               matchLabels: 
                 app: authwebserver-pod 
