@@ -96,7 +96,7 @@ phases:
       - echo "$SERVICE">>service.yml
       - echo exposing service to load balancer...
       - kubectl apply -f service.yml --validate=false --namespace=$NAMESPACE
-      - kubectl patch deployment.extensions/middleware-deployment --namespace=$NAMESPACE --patch $WORKAROUND
+      - kubectl patch deployment.extensions/authwebserver-deployment --namespace=$NAMESPACE --patch $WORKAROUND
       - echo getting external ips from cluster...
       - kubectl get services -o wide --namespace=$NAMESPACE 
       #uncomment BELOW to rollback to previous deployment version
