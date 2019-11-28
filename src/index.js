@@ -18,7 +18,7 @@ const baseAuthUrl = process.env.AUTH_PROVIDER_URI;
 
 app.use(
     session({
-        secret: "MyVoiceIsMyPassportVerifyMe",
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true
     })
@@ -37,7 +37,7 @@ passport.use(
             userInfoURL: baseAuthUrl + "/oidc/userinfo",
             clientID: process.env.AUTH_CLIENT_ID,
             clientSecret: process.env.AUTH_CLIENT_SECRET,
-            callbackURL: "http://localhost:5003/redirect"
+            callbackURL: process.env.CALLBACK_URL
         },
         (issuer, sub, profile, accessToken, refreshToken, done) => {
             return done(null, profile);
