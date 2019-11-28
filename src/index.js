@@ -27,6 +27,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get("/*", (req, res) => {
+    res.sendFile(process.env.APPLICATION_PATH + "/index.html"),
+        err => {
+            if (err) {
+                res.status(500).send(err);
+            }
+        };
+});
+
 passport.use(
     "oidc",
     new OidcStrategy(
