@@ -28,7 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/*", (req, res) => {
-    res.sendFile(process.env.APPLICATION_PATH + "/index.html"),
+    res.sendFile("index.html", { root: process.env.APPLICATION_PATH }),
         err => {
             if (err) {
                 res.status(500).send(err);
