@@ -14,7 +14,7 @@ app.use(express.static(mainApp));
 const session = require("express-session");
 
 const OidcStrategy = require("passport-openidconnect").Strategy;
-const baseAuthUrl = "https://connect.openathens.net";
+const baseAuthUrl = process.env.AUTH_PROVIDER_URI;
 
 app.use(
     session({
@@ -35,8 +35,8 @@ passport.use(
             authorizationURL: baseAuthUrl + "/oidc/auth",
             tokenURL: baseAuthUrl + "/oidc/token",
             userInfoURL: baseAuthUrl + "/oidc/userinfo",
-            clientID: "hdruk.ac.uk.oidc-app-v1.5614d0c5-9fbf-46a0-8311-baf34df79bdb",
-            clientSecret: "IsRerNSo3JdPSWgo2X3amjcfy",
+            clientID: process.env.AUTH_CLIENT_ID,
+            clientSecret: process.env.AUTH_CLIENT_SECRET,
             callbackURL: "http://localhost:5003/redirect"
         },
         (issuer, sub, profile, accessToken, refreshToken, done) => {
