@@ -1,21 +1,23 @@
-FROM node:8  
-WORKDIR /src/index.js  
+FROM node:12 
+WORKDIR /  
   
 # Install app dependencies  
-COPY package*.json ./  
+COPY package.json ./  
 RUN npm install  
  
 # Copy app contents  
 COPY . .  
  
 # Expose ports needed 
-EXPOSE 8080  
-EXPOSE 5003
+EXPOSE 5001/tcp
  
 # Add environment variables 
-ENV NODE_ENV=local 
-ENV PORT=5003
-ENV APPLICATION_PATH=148375436316.dkr.ecr.eu-west-2.amazonaws.com/hdr-gateway-webapp:latest 
+#ENV NODE_ENV=${authnode}
+#ENV PORT=${authport}
+#ENV APPLICATION_PATH=${path}
+#ENV NODE_ENV=local
+#ENV PORT=5003
+#ENV APPLICATION_PATH=./build
   
 # Start the app  
-CMD [ "npm", "start"]  
+CMD [ "npm", "run", "start"]  
