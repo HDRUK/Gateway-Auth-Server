@@ -27,15 +27,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/*", (req, res) => {
-    res.sendFile("index.html", { root: process.env.APPLICATION_PATH }),
-        err => {
-            if (err) {
-                res.status(500).send(err);
-            }
-        };
-});
-
 passport.use(
     "oidc",
     new OidcStrategy(
@@ -73,6 +64,15 @@ app.get("/logout", (req, res) => {
     req.logout();
     req.session.destroy();
     res.redirect("/");
+});
+
+app.get("/*", (req, res) => {
+    res.sendFile("index.html", { root: process.env.APPLICATION_PATH }),
+        err => {
+            if (err) {
+                res.status(500).send(err);
+            }
+        };
 });
 
 app.listen(port, () =>
