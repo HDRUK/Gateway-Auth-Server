@@ -16,6 +16,8 @@ const session = require("express-session");
 const OidcStrategy = require("passport-openidconnect").Strategy;
 const baseAuthUrl = process.env.AUTH_PROVIDER_URI;
 
+let loginRedirect = "/";
+
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -50,14 +52,30 @@ passport.serializeUser((user, next) => {
 });
 
 passport.deserializeUser((user, next) => {
-    console.log(user._json.eduPersonTargetedID);
     next(null, user);
 });
 
-app.use("/login", passport.authenticate("oidc"));
+app.use("/login", (req, res, next) => {
+    const referer = req.headers.referer;
+    let refererRoute = "/";
+    if (referer) {
+        let splitURL = referer.split("/");
+        splitURL = splitURL.slice(3);
+        refererRoute = splitURL.join("/");
+        if (refererRoute) {
+            loginRedirect = refererRoute;
+        } else {
+            loginRedirect = "/search";
+        }
+    } else {
+        loginRedirect = "/search";
+    }
+    passport.authenticate("oidc")(req, res, next);
+});
 
 app.use("/redirect", passport.authenticate("oidc", { failureRedirect: "/error" }), (req, res) => {
-    res.redirect("/");
+    // res.redirect("/" + req.user._json.eduPersonTargetedID);
+    res.redirect(loginRedirect);
 });
 
 app.get("/logout", (req, res) => {
