@@ -46,9 +46,20 @@ passport.use(
         }
     )
 );
+const redirection = referer => {
+    let refererRoute = "/";
+    let splitURL = referer.split("/");
+    splitURL = splitURL.slice(3);
+    refererRoute = splitURL.join("/");
+    if (refererRoute === "") {
+        loginRedirect = "/search";
+    } else {
+        loginRedirect = refererRoute;
+    }
+};
 
 passport.serializeUser((user, next) => {
-    next(null, user);
+    next(null, { id: user._json.eduPersonTargetedID, email: user._json.eduPersonScopedAffiliation });
 });
 
 passport.deserializeUser((user, next) => {
@@ -56,32 +67,27 @@ passport.deserializeUser((user, next) => {
 });
 
 app.use("/login", (req, res, next) => {
-    const referer = req.headers.referer;
-    let refererRoute = "/";
-    if (referer) {
-        let splitURL = referer.split("/");
-        splitURL = splitURL.slice(3);
-        refererRoute = splitURL.join("/");
-        if (refererRoute) {
-            loginRedirect = refererRoute;
-        } else {
-            loginRedirect = "/search";
-        }
-    } else {
-        loginRedirect = "/search";
-    }
+    const referer = req.headers.referer || "/";
+    redirection(referer);
     passport.authenticate("oidc")(req, res, next);
 });
 
 app.use("/redirect", passport.authenticate("oidc", { failureRedirect: "/error" }), (req, res) => {
-    // res.redirect("/" + req.user._json.eduPersonTargetedID);
-    res.redirect(loginRedirect);
+    let id = "";
+    let email = "";
+    if (req.session.passport && req.session.passport.user) {
+        id = req.session.passport.user.id;
+        email = req.session.passport.user.email;
+    }
+    res.redirect(`/logincallback?id=${id}&email=${email}&route=${loginRedirect}`);
 });
 
 app.get("/logout", (req, res) => {
+    const referer = req.headers.referer || "/";
+    redirection(referer);
     req.logout();
     req.session.destroy();
-    res.redirect("/");
+    res.redirect(`/logincallback?id=&email=&route=${loginRedirect}`);
 });
 
 app.get("/*", (req, res) => {
