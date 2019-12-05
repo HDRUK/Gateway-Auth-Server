@@ -42,7 +42,7 @@ passport.use(
             callbackURL: process.env.CALLBACK_URL
         },
         (issuer, sub, profile, accessToken, refreshToken, done) => {
-            return done(null, profile);
+            return done(null, { profile, accessToken });
         }
     )
 );
@@ -59,7 +59,11 @@ const redirection = referer => {
 };
 
 passport.serializeUser((user, next) => {
-    next(null, { id: user._json.eduPersonTargetedID, email: user._json.eduPersonScopedAffiliation });
+    next(null, {
+        id: user.profile._json.eduPersonTargetedID,
+        email: user.profile._json.eduPersonScopedAffiliation,
+        accessToken: user.accessToken
+    });
 });
 
 passport.deserializeUser((user, next) => {
@@ -75,11 +79,13 @@ app.use("/login", (req, res, next) => {
 app.use("/redirect", passport.authenticate("oidc", { failureRedirect: "/error" }), (req, res) => {
     let id = "";
     let email = "";
+    let token = "";
     if (req.session.passport && req.session.passport.user) {
         id = req.session.passport.user.id;
         email = req.session.passport.user.email;
+        token = req.session.passport.user.accessToken;
     }
-    res.redirect(`/logincallback?id=${id}&email=${email}&route=${loginRedirect}`);
+    res.redirect(`/logincallback?id=${id}&email=${email}&token=${token}&route=${loginRedirect}`);
 });
 
 app.get("/logout", (req, res) => {
@@ -87,7 +93,7 @@ app.get("/logout", (req, res) => {
     redirection(referer);
     req.logout();
     req.session.destroy();
-    res.redirect(`/logincallback?id=&email=&route=${loginRedirect}`);
+    res.redirect(`/logincallback?id=&email=&token=&route=${loginRedirect}`);
 });
 
 app.get("/*", (req, res) => {
