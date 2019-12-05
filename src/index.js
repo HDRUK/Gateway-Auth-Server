@@ -16,6 +16,8 @@ const session = require("express-session");
 const OidcStrategy = require("passport-openidconnect").Strategy;
 const baseAuthUrl = process.env.AUTH_PROVIDER_URI;
 
+let loginRedirect = "/";
+
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -40,30 +42,58 @@ passport.use(
             callbackURL: process.env.CALLBACK_URL
         },
         (issuer, sub, profile, accessToken, refreshToken, done) => {
-            return done(null, profile);
+            return done(null, { profile, accessToken });
         }
     )
 );
+const redirection = referer => {
+    let refererRoute = "/";
+    let splitURL = referer.split("/");
+    splitURL = splitURL.slice(3);
+    refererRoute = splitURL.join("/");
+    if (refererRoute === "") {
+        loginRedirect = "/search";
+    } else {
+        loginRedirect = refererRoute;
+    }
+};
 
 passport.serializeUser((user, next) => {
-    next(null, user);
+    next(null, {
+        id: user.profile._json.eduPersonTargetedID,
+        email: user.profile._json.eduPersonScopedAffiliation,
+        accessToken: user.accessToken
+    });
 });
 
 passport.deserializeUser((user, next) => {
-    console.log(user._json.eduPersonTargetedID);
     next(null, user);
 });
 
-app.use("/login", passport.authenticate("oidc"));
+app.use("/login", (req, res, next) => {
+    const referer = req.headers.referer || "/";
+    redirection(referer);
+    passport.authenticate("oidc")(req, res, next);
+});
 
 app.use("/redirect", passport.authenticate("oidc", { failureRedirect: "/error" }), (req, res) => {
-    res.redirect("/");
+    let id = "";
+    let email = "";
+    let token = "";
+    if (req.session.passport && req.session.passport.user) {
+        id = req.session.passport.user.id;
+        email = req.session.passport.user.email;
+        token = req.session.passport.user.accessToken;
+    }
+    res.redirect(`/logincallback?id=${id}&email=${email}&token=${token}&route=${loginRedirect}`);
 });
 
 app.get("/logout", (req, res) => {
+    const referer = req.headers.referer || "/";
+    redirection(referer);
     req.logout();
     req.session.destroy();
-    res.redirect("/");
+    res.redirect(`/logincallback?id=&email=&token=&route=${loginRedirect}`);
 });
 
 app.get("/*", (req, res) => {
