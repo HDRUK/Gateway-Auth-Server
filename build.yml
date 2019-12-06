@@ -14,8 +14,14 @@ phases:
 
     pre_build:
         commands:
+            - pwd
+            - ls -la
             - cd $CODEBUILD_SRC_DIR_SourceOutputWebApp
+            - pwd
+            - ls -la
             - echo "REACT_APP_GRAPH_QL_ENDPOINT="$REACT_APP_GRAPH_QL_ENDPOINT >> ./.env
+            - pwd
+            - ls -la
             - npm install
             - npm run build
             - cp -r ./build $CODEBUILD_SRC_DIR
