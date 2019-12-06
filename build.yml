@@ -14,13 +14,10 @@ phases:
 
     pre_build:
         commands:
-            - cd $CODEBUILD_SRC_DIR_SourceOutputWebApp
-            - echo "REACT_APP_GRAPH_QL_ENDPOINT="$GRAPH_QL >> ./.env
-            - npm install
-            - npm run build
-            - cp -r ./build $CODEBUILD_SRC_DIR
-            - cp ./.env $CODEBUILD_SRC_DIR/build
-            - cd $CODEBUILD_SRC_DIR
+            - cp -r ./build from s3
+            - cp ./.env from s3 to /build
+            - pwd
+            - echo this has to be src with package json etc...
             - touch ./.env
             - echo "APPLICATION_PATH="$APPLICATION_PATH >> .env
             - echo "PORT="$PORT >> .env
