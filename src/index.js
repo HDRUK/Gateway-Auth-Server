@@ -16,6 +16,8 @@ const session = require("express-session");
 const OidcStrategy = require("passport-openidconnect").Strategy;
 const baseAuthUrl = process.env.AUTH_PROVIDER_URI;
 
+const nodemailer = require("nodemailer");
+
 let loginRedirect = "/";
 
 app.use(
@@ -94,6 +96,50 @@ app.get("/logout", (req, res) => {
     req.logout();
     req.session.destroy();
     res.redirect(`/logincallback?id=&email=&token=&route=${loginRedirect}`);
+});
+
+const transport = {
+    host: "smtp.gmail.com",
+    auth: {
+        user: "katyellington40@gmail.com",
+        pass: ""
+    }
+};
+
+var transporter = nodemailer.createTransport(transport);
+
+transporter.verify((error, success) => {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log("All works fine, congratz!");
+    }
+});
+app.use(express.json());
+app.post("/send", (req, res, next) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const message = req.body.messageHtml;
+
+    const mail = {
+        from: name,
+        to: email,
+        subject: "Contact form request",
+
+        html: message
+    };
+
+    transporter.sendMail(mail, (err, data) => {
+        if (err) {
+            res.json({
+                msg: "fail"
+            });
+        } else {
+            res.json({
+                msg: "success"
+            });
+        }
+    });
 });
 
 app.get("/*", (req, res) => {
