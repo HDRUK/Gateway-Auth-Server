@@ -113,20 +113,19 @@ transporter.verify((error, success) => {
     if (error) {
         console.log(error);
     } else {
-        console.log("All works fine, congratz!");
+        console.log("Email server connected!");
     }
 });
 app.use(express.json());
 app.post("/send", (req, res, next) => {
     const sender = req.body.sender;
-    // const recipient = req.body.recipient;
+    const recipient = req.body.recipient;
     const title = req.body.title;
     const message = req.body.messageHtml;
 
     const mail = {
         from: sender,
-        // to: recipient,
-        to: "",
+        to: process.env.NODE_ENV === "production" ? recipient : process.env.RECIPIENT_EMAIL,
         subject: `Dataset Access Request: ${title}`,
 
         html: message
