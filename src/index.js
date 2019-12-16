@@ -99,10 +99,11 @@ app.get("/logout", (req, res) => {
 });
 
 const transport = {
-    host: "smtp.gmail.com",
+    host: "mail.uk2.net",
+    port: 587,
     auth: {
-        user: "katyellington40@gmail.com",
-        pass: ""
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
     }
 };
 
@@ -117,14 +118,16 @@ transporter.verify((error, success) => {
 });
 app.use(express.json());
 app.post("/send", (req, res, next) => {
-    const name = req.body.name;
-    const email = req.body.email;
+    const sender = req.body.sender;
+    // const recipient = req.body.recipient;
+    const title = req.body.title;
     const message = req.body.messageHtml;
 
     const mail = {
-        from: name,
-        to: email,
-        subject: "Contact form request",
+        from: sender,
+        // to: recipient,
+        to: "",
+        subject: `Dataset Access Request: ${title}`,
 
         html: message
     };
