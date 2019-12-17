@@ -31,6 +31,9 @@ phases:
             - echo "AUTH_CLIENT_ID="$AUTH_CLIENT_ID >> .env
             - echo "AUTH_CLIENT_SECRET="$AUTH_CLIENT_SECRET >> .env
             - echo "AUTH_PROVIDER_URI="$AUTH_PROVIDER_URI >> .env
+            - echo "EMAIL="$EMAIL >> .env
+            - echo "EMAIL_PASSWORD="$EMAIL_PASSWORD >> .env
+            - echo "RECIPIENT_EMAIL="$RECIPIENT_EMAIL >> .env
             - echo Logging in to Amazon ECR...
             - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
 
