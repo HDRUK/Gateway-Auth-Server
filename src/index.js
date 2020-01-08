@@ -54,7 +54,7 @@ const redirection = referer => {
     splitURL = splitURL.slice(3);
     refererRoute = splitURL.join("/");
     if (refererRoute === "") {
-        loginRedirect = "/search";
+        loginRedirect = "/innovation";
     } else {
         loginRedirect = refererRoute;
     }
@@ -109,7 +109,7 @@ const transport = {
 
 var transporter = nodemailer.createTransport(transport);
 
-transporter.verify((error, success) => {
+transporter.verify(error => {
     if (error) {
         console.log(error);
     } else {
@@ -118,7 +118,7 @@ transporter.verify((error, success) => {
 });
 app.use(express.json());
 
-app.post("/send", (req, res, next) => {
+app.post("/send", (req, res) => {
     const sender = req.body.sender;
     const recipient = req.body.recipient;
     const title = req.body.title;
@@ -142,13 +142,13 @@ app.post("/send", (req, res, next) => {
     };
     // req.session.passport && req.session.passport.user && (receipt.name = req.session.passport.user.email);
 
-    transporter.sendMail(mail, (err, data) => {
+    transporter.sendMail(mail, err => {
         if (err) {
             res.json({
                 msg: "fail"
             });
         } else {
-            transporter.sendMail(receipt, (err, data) => {
+            transporter.sendMail(receipt, err => {
                 if (err) {
                     res.json({
                         msg: "fail"
