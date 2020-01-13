@@ -164,6 +164,7 @@ app.post("/send", (req, res) => {
 });
 
 app.get("/*", (req, res) => {
+    res.cookie("sessionID", req.sessionID);
     res.sendFile("index.html", { root: process.env.APPLICATION_PATH }),
         err => {
             if (err) {
