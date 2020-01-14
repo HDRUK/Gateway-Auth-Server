@@ -144,7 +144,7 @@ app.post("/send", (req, res) => {
     };
 
     const receipt = {
-        from: "${email}",
+        from: `${email}`,
         to: process.env.NODE_ENV === "production" ? sender : process.env.RECIPIENT_EMAIL,
         subject: `Health Data Research Innovation Gateway - Data Enquiry Sent: ${title} dataset`,
 
