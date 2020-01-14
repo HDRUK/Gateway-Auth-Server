@@ -99,8 +99,8 @@ app.get("/logout", (req, res) => {
 });
 
 const transport = {
-    host: "mail.uk2.net",
-    port: 587,
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD
@@ -145,7 +145,7 @@ app.post("/send", (req, res) => {
     transporter.sendMail(mail, err => {
         if (err) {
             res.json({
-                msg: "fail"
+                msg: `fail: + ${err}`
             });
         } else {
             transporter.sendMail(receipt, err => {

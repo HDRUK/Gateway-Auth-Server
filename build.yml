@@ -34,6 +34,8 @@ phases:
             - echo "EMAIL="$EMAIL >> .env
             - echo "EMAIL_PASSWORD="$EMAIL_PASSWORD >> .env
             - echo "RECIPIENT_EMAIL="$RECIPIENT_EMAIL >> .env
+            - echo "EMAIL_PORT="$EMAIL_PORT >> .env
+            - echo "EMAIL_HOST="$EMAIL_HOST >> .env
             - echo Logging in to Amazon ECR...
             - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
 
