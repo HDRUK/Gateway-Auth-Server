@@ -101,6 +101,7 @@ app.get("/logout", (req, res) => {
 const transport = {
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
+    secure: process.env.NODE_ENV === "production" ? true : false,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD
@@ -111,8 +112,16 @@ var transporter = nodemailer.createTransport(transport);
 
 transporter.verify(error => {
     if (error) {
-        console.log(error);
+        logger.log({
+            level: "info",
+            message: `Email server connection failed! - ${error}`
+        });
+        console.log(`Email server connection failed! - ${error}`);
     } else {
+        logger.log({
+            level: "info",
+            message: `Email server connected!`
+        });
         console.log("Email server connected!");
     }
 });
