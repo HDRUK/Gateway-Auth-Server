@@ -103,7 +103,7 @@ const transport = {
     port: process.env.EMAIL_PORT,
     secure: process.env.NODE_ENV === "production" ? true : false,
     auth: {
-        user: process.env.EMAIL,
+        user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
     }
 };
@@ -132,7 +132,8 @@ app.post("/send", (req, res) => {
     const recipient = req.body.recipient;
     const title = req.body.title;
     const message = req.body.messageHtml;
-    const receiptMessage = `<p>Thank you for enquiring about access to the ${title} dataset through the Health Data Research UK Innovation Gateway. The Data Custodian for this dataset has been notified and they will contact you directly in due course. </p><p>In order to facilitate the next stage of the request process, please make yourself aware of the technical data terminology used by the NHS Data Dictionary on the following link:</p><a href="https://www.datadictionary.nhs.uk/">https://www.datadictionary.nhs.uk/</a><p>Please reply to this email, if you would like to provide feedback to the Data Enquiry process facilitated by the Health Data Research Innovation Gateway - <a href="mailto:support@healthdatagateway.org">support@healthdatagateway.org</a></p>`;
+    const email = process.env.EMAIL;
+    const receiptMessage = `<p>Thank you for enquiring about access to the ${title} dataset through the Health Data Research UK Innovation Gateway. The Data Custodian for this dataset has been notified and they will contact you directly in due course. </p><p>In order to facilitate the next stage of the request process, please make yourself aware of the technical data terminology used by the NHS Data Dictionary on the following link:</p><a href="https://www.datadictionary.nhs.uk/">https://www.datadictionary.nhs.uk/</a><p>Please reply to this email, if you would like to provide feedback to the Data Enquiry process facilitated by the Health Data Research Innovation Gateway - <a href="mailto:${email}">${email}</a></p>`;
 
     const mail = {
         from: sender,
@@ -143,7 +144,7 @@ app.post("/send", (req, res) => {
     };
 
     const receipt = {
-        from: "support@healthdatagateway.org",
+        from: "${email}",
         to: process.env.NODE_ENV === "production" ? sender : process.env.RECIPIENT_EMAIL,
         subject: `Health Data Research Innovation Gateway - Data Enquiry Sent: ${title} dataset`,
 
