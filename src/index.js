@@ -101,7 +101,7 @@ app.get("/logout", (req, res) => {
 const transport = {
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
-    secure: process.env.NODE_ENV === "production" ? true : false,
+    // secure: process.env.NODE_ENV === "production" ? true : false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
