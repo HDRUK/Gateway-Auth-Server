@@ -136,7 +136,7 @@ app.post("/send", (req, res) => {
     const receiptMessage = `<p>Thank you for enquiring about access to the ${title} dataset through the Health Data Research UK Innovation Gateway. The Data Custodian for this dataset has been notified and they will contact you directly in due course. </p><p>In order to facilitate the next stage of the request process, please make yourself aware of the technical data terminology used by the NHS Data Dictionary on the following link:</p><a href="https://www.datadictionary.nhs.uk/">https://www.datadictionary.nhs.uk/</a><p>Please reply to this email, if you would like to provide feedback to the Data Enquiry process facilitated by the Health Data Research Innovation Gateway - <a href="mailto:${email}">${email}</a></p>`;
 
     const mail = {
-        from: sender,
+        from: `${email}`,
         to: process.env.NODE_ENV === "production" ? recipient : process.env.RECIPIENT_EMAIL,
         subject: `Dataset Access Enquiry: ${title} dataset`,
 
