@@ -138,6 +138,7 @@ app.post("/send", (req, res) => {
     const mail = {
         from: `${email}`,
         to: process.env.NODE_ENV === "production" ? recipient : process.env.RECIPIENT_EMAIL,
+        cc: sender,
         subject: `Dataset Access Enquiry: ${title} dataset`,
 
         html: message
