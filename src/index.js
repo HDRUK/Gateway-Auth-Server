@@ -155,13 +155,13 @@ app.post("/send", (req, res) => {
     transporter.sendMail(mail, err => {
         if (err) {
             res.json({
-                msg: `fail: + ${err}`
+                msg: `Enquiry email failure: + ${err}`
             });
         } else {
             transporter.sendMail(receipt, err => {
                 if (err) {
                     res.json({
-                        msg: `fail: + ${err}`
+                        msg: `Acknowledgement email failure: + ${err}`
                     });
                 } else {
                     res.json({
