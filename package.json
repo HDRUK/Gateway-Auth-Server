@@ -26,7 +26,8 @@
         "passport": "^0.4.0",
         "passport-openidconnect": "0.0.2",
         "winston": "^3.2.1",
-        "winston-daily-rotate-file": "^4.2.1"
+        "winston-daily-rotate-file": "^4.2.1",
+        "sonarQube": "sonar-scanner"
     },
     "devDependencies": {
         "eslint": "^6.6.0",

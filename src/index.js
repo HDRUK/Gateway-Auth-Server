@@ -49,7 +49,7 @@ passport.use(
     )
 );
 const redirection = referer => {
-    let refererRoute = "/";
+    let refererRoute;
     let splitURL = referer.split("/");
     splitURL = splitURL.slice(3);
     refererRoute = splitURL.join("/");
@@ -176,12 +176,11 @@ app.post("/send", (req, res) => {
 
 app.get("/*", (req, res) => {
     res.cookie("sessionID", req.sessionID);
-    res.sendFile("index.html", { root: process.env.APPLICATION_PATH }),
-        err => {
-            if (err) {
-                res.status(500).send(err);
-            }
-        };
+    res.sendFile("index.html", { root: process.env.APPLICATION_PATH }, err => {
+        if (err) {
+            res.status(500).send(err);
+        }
+    });
 });
 
 app.listen(port, () =>
