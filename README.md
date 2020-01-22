@@ -42,7 +42,7 @@ This is a node application, all node modules are installed locally.
 
 Download or clone from Code Repsitory
 
-[Bitbucket Repository](https://github.com/HDRUK/Gateway-Auth-Server)
+[Web Auth Repository](https://github.com/HDRUK/Gateway-Auth-Server)
 
 from the downloaded directory run
 
