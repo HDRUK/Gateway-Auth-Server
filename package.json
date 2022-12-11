@@ -20,7 +20,7 @@
     "homepage": "https://bitbucket.org/hdr_mvp_gateway/hdr_mvp_gateway_auth_web_server#readme",
     "dependencies": {
         "dotenv": "^8.2.0",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "express-session": "^1.17.0",
         "nodemailer": "^6.4.2",
         "passport": "^0.4.0",
